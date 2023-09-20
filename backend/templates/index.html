@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV File Upload</title>
+</head>
+<body>
+    <h1>Upload Three CSV Files</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file1" accept=".csv">
+        <input type="file" name="file2" accept=".csv">
+        <input type="file" name="file3" accept=".csv">
+        <input type="submit" value="Upload">
+    </form>
+    {% if output %}
+        <h2>Output:</h2>
+        <p>{{ output }}</p>
+    {% endif %}
+</body>
+</html>
