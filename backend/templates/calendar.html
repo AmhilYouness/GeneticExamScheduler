@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FullCalendar in Flask</title>
+    <style>
+        /* your_custom_styles.css */
+        .container_calendar {
+            width: 80%; /* Adjust this value to control the width of the container */
+            margin: 0 auto; /* Center the container horizontally */
+            padding: 20px; /* Add some padding for spacing */
+            border: 1px solid #ccc; /* Add a border for styling */
+            box-sizing: border-box; /* Include padding and border in the width */
+        }
+
+        #calendar {
+            width: 100%; /* Take up the full width of the container */
+            height: 400px; /* Adjust this value to control the height of the calendar */
+        }
+
+    </style>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+    <!-- <link href="{{ url_for('static', filename='fullcalendar/core/main.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='fullcalendar/interactions/main.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='your_custom_styles.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='fullcalendar/core/main.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='fullcalendar/interactions/main.min.js') }}"></script> -->
+</head>
+<body>
+    <div class="container_calendar">
+    <div id="calendar"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth', // Change to your desired view
+                events: '/get_events', // Route to fetch calendar events
+            });
+            calendar.render();
+        });
+    </script>
+</body>
+</html>

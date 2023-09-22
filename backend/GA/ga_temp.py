@@ -15,10 +15,8 @@ from Schedule import Schedule
 room_names = ['C301', 'C302', 'C303', 'C304', 'C305', 'C306', 'C307', 'C308', 'C309', 'C310']
 
 # Hard Const 3 : No exams on weekends
+total_days = ['2023-09-18', '2023-09-19', '2023-09-20', '2023-09-21', '2023-09-22', '2023-09-25', '2023-09-26', '2023-09-27', '2023-09-28', '2023-09-29', '2023-09-30']
 
-total_days = ['Week 1 : Mon', 'Week 1 : Tue', 'Week 1 : Wed', 'Week 1 : Thu', 'Week 1 : Fri', 'Week 2 : Mon',
-              'Week 2 : Tue', 'Week 2 : Wed', 'Week 2 : Thu', 'Week 2 : Fri']#, 'Week 3 : Mon', 'Week 3 : Tue',
-              #'Week 3 : Wed']
 classrooms = collections.namedtuple('classroom', 'room_name morning invig_morning noon invig_noon')
 
 

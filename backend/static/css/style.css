@@ -1,0 +1,154 @@
+/* Reset some default styles */
+body, h1, h2 {
+    margin: 0;
+    padding: 0;
+}
+
+/* Global styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+/* Header styles */
+header {
+    background-color: #007bff;
+    color: #000; /* Black color for the title */
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Upload section styles */
+.upload-section {
+    margin-top: 20px;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.file-input {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="file"] {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.upload-button {
+    text-align: center;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.upload-button button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Output section styles */
+.output-section {
+    margin-top: 20px;
+}
+
+/* Add these styles to your existing CSS file or create a new one */
+.parameter {
+    margin-bottom: 15px;
+}
+
+.algorithm-parameters {
+    /* background-color: #f9f9f9; */
+    padding: 20px;
+    border-radius: 5px;
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.algorithm-parameters h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.algorithm-parameters label {
+    font-weight: bold;
+    display: block;
+}
+
+.algorithm-parameters input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+ /* your_custom_styles.css */
+ .container_calendar {
+    width: 80%; /* Adjust this value to control the width of the container */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px; /* Add some padding for spacing */
+    border: 1px solid #ccc; /* Add a border for styling */
+    box-sizing: border-box; /* Include padding and border in the width */
+}
+
+#calendar {
+    width: 100%; /* Take up the full width of the container */
+    height: 400px; /* Adjust this value to control the height of the calendar */
+}
+
+ /* Modal Styles */
+ .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    margin: 10% auto;
+    max-width: 400px;
+    padding: 20px;
+    position: relative;
+    text-align: center;
+}
+
+.close {
+    color: #aaa;
+    cursor: pointer;
+    font-size: 20px;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+
+/* Add more styles as needed */
