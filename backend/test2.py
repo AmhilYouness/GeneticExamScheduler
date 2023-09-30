@@ -1,32 +1,12 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session, make_response
-from flask_bcrypt import Bcrypt
 import collections
-import random
-from copy import deepcopy
-from colorama import Fore, Back
-from numpy import random
-from numpy.random import randint
-from GA.ga_temp import genetic_algo, print_custom_schedule, print_check
-from DataLoader.dataLoader import DataLoader
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session, make_response, Response
+from flask_bcrypt import Bcrypt
 import pdfkit
 
 
-
-app = Flask(__name__, static_folder='static')
-app.secret_key = 'your_secret_key'  
-bcrypt = Bcrypt(app)
-
-
-# Replace these with your actual usernames and passwords
-user_database = {
-    'zineb@gmail.com': bcrypt.generate_password_hash('zineb').decode('utf-8'),
-    'test@gmail.com': bcrypt.generate_password_hash('test').decode('utf-8')
-}
-
-global classroom, mydata
-classroom = collections.namedtuple('classrooms', 'room_name morning invig_morning noon invig_noon')
-mydata = {}
-
+classroom = collections.namedtuple(
+    "classrooms", "room_name morning invig_morning noon invig_noon"
+)
 
 mydata = {
 
@@ -243,97 +223,22 @@ mydata = {
 }
 
 
+result = {}
+for date, classrooms in mydata.items():
+    result[date] = {}
+    for classroom in classrooms:
+        result[date][classroom.room_name] = {"morning" : classroom.morning, "invig_morning": classroom.invig_morning, "noon": classroom.noon, "invig_noon": classroom.invig_noon}
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    # Check if the user is authenticated, if not, redirect to the login page
-    if not user_authenticated():
-        return redirect(url_for('login'))
-    if request.method == 'POST':
-        # Initialize an empty list to store the data from the CSV files
-        csv_data = []
-        file1 = request.files.get('file1')
-        file2 = request.files.get('file2')
-        file3 = request.files.get('file3')
-        process_csv([file1, file2, file3])
-        result = calendar()
-        return render_template("cal.html", data=result)
-
-        # return render_template('index.html', output=output)
-    return render_template('index.html', output=None)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form.get('email')
-        password = request.form.get('password')
-
-        if username in user_database and bcrypt.check_password_hash(user_database[username], password):
-            # User is authenticated, redirect to a protected route or perform other actions
-            session["username"] = username
-            return redirect(url_for('index'))
-        else:
-            # Authentication failed, show an error message
-            error_message = 'Invalid username or password'
-            print("error_message")
-            return render_template('login.html', error_message=error_message)
-    return render_template('login.html', error_message=None)
-
-
-def user_authenticated():
-    username = session.get('username')
-    return username is not None and username in user_database
-
-
-
-def process_csv(files):
-    global mydata
-    data = DataLoader(files[0], files[1], files[2])
-    population_size = random.randint(50, 200)          # number of solutions in a population
-    max_generations = random.randint(100, 1000)        # how long to iterate
-    crossover_probability = 1
-    mutation_probability = 0.6
-    res = genetic_algo(population_size, max_generations, crossover_probability, mutation_probability, data.courses, data.teachers,
-                       data.students)
-    mydata = res.days
-
-# @app.route('/get_calendar_data')
-# def get_calendar_data():
-#     events = []
-#     for date, classrooms in mydata.items():
-#         print(date)
-#         for classroomst in classrooms:
-#             # Customize this as per your data structure
-#             event = {
-#                 'title': f'{classroomst.room_name} - Morning: {classroomst.morning}, Noon: {classroomst.noon}',
-#                 'start': date,
-#                 'invig_morning': classroomst.invig_morning,
-#                 'invig_noon': classroomst.invig_noon,
-#             }
-#             events.append(event)
-#     return jsonify(events)
+app = Flask(__name__, static_folder="static")
 
 
 @app.route("/cal")
-def calendar_temp():
-    global mydata
-    result = {}
-    for date, classrooms in mydata.items():
-        result[date] = {}
-        for classroom in classrooms:
-            result[date][classroom.room_name] = {"morning" : classroom.morning, "invig_morning": classroom.invig_morning, "noon": classroom.noon, "invig_noon": classroom.invig_noon}
+def calendar():
     return render_template("cal.html", data=result)
 
 
-def calendar():
-    global mydata
-    result = {}
-    for date, classrooms in mydata.items():
-        result[date] = {}
-        for classroom in classrooms:
-            result[date][classroom.room_name] = {"morning" : classroom.morning, "invig_morning": classroom.invig_morning, "noon": classroom.noon, "invig_noon": classroom.invig_noon}
-    return result# return render_template("cal.html", data=result)
+import pdfkit
+
 
 
 @app.route('/download_pdf')
@@ -355,19 +260,7 @@ def download_pdf():
         return response
     except Exception as e:
         print("Error:", str(e))
+        return "PDF generation failed."
 
-
-
-@app.route('/dashbaord')
-def dashbaord():
-    return render_template("dash.html")
-
-@app.route('/settings')
-def settings():
-    return render_template("settings.html")
-
-
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

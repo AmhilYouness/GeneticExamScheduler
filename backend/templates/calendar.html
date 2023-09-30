@@ -35,8 +35,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth', // Change to your desired view
-                events: '/get_events', // Route to fetch calendar events
+                initialView: 'timeGridWeek', // Change to your desired view
+                events: '/get_calendar_data', // Route to fetch calendar events
+                businessHours: true,
+                
             });
             calendar.render();
         });

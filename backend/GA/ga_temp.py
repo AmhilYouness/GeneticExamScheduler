@@ -12,10 +12,11 @@ from numpy.random import randint
 from Schedule import Schedule
 
 
-room_names = ['C301', 'C302', 'C303', 'C304', 'C305', 'C306', 'C307', 'C308', 'C309', 'C310']
+room_names = ['C301', 'C302', 'C303', 'C304', 'C305', 'C306', 'C307', 'C308', 'C309']
 
 # Hard Const 3 : No exams on weekends
-total_days = ['2023-09-18', '2023-09-19', '2023-09-20', '2023-09-21', '2023-09-22', '2023-09-25', '2023-09-26', '2023-09-27', '2023-09-28', '2023-09-29', '2023-09-30']
+total_days = ['Lundi-0', 'Lundi-1', 'Mardi-0', 'Mardi-1', 'Mercredi-0', 'Mercredi-1',
+              'Jeudi-0', 'Jeudi-1', 'Vendredi-0', 'Vendredi-1', 'Samedi-0']
 
 classrooms = collections.namedtuple('classroom', 'room_name morning invig_morning noon invig_noon')
 

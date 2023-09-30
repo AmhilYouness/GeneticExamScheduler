@@ -12,14 +12,14 @@
 </head>
 <body>
     <header>
-        <div class="container">
+        <div class="container" style="background-color: yellow;">
             <h1>Planification des Examens</h1>
         </div>
     </header>
     
     <section class="upload-section">
         <div class="container">
-            <h2>Charger Trois Fichiers CSV</h2>
+            <h2 style="text-align: center;">Charger Trois Fichiers CSV</h2>
             <form method="POST" enctype="multipart/form-data">
                 <div class="file-input">
                     <label for="file1">Fichier des Cours (CSV)</label>
@@ -34,7 +34,7 @@
                     <input type="file" name="file3" accept=".csv" id="file3">
                 </div>
                 <div class="algorithm-parameters">
-                    <h2>Algorithm Parameters</h2>
+                    <h2 style="text-align: center;">Algorithm Parameters</h2>
                     <div class="parameter">
                         <label for="population_size">Taille de la Population :</label>
                         <input type="number" name="population_size" id="population_size" required>
@@ -61,12 +61,5 @@
         </div>
     </section>
 
-    <section class="output-section">
-        <div class="container">
-        <div class="container_calendar">
-            <div id="calendar"></div>
-        </div>
-        </div>
-    </section>
 </body>
 </html>
