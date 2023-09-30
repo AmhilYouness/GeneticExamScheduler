@@ -4,3 +4,4 @@ pygad
 Flask-Session
 pdfkit
 wkhtmltopdf
+Flask-Bcrypt

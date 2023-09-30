@@ -25,7 +25,6 @@ user_database = {
 
 global classroom, mydata
 classroom = collections.namedtuple('classrooms', 'room_name morning invig_morning noon invig_noon')
-mydata = {}
 
 
 mydata = {
@@ -244,22 +243,11 @@ mydata = {
 
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
     # Check if the user is authenticated, if not, redirect to the login page
     if not user_authenticated():
         return redirect(url_for('login'))
-    if request.method == 'POST':
-        # Initialize an empty list to store the data from the CSV files
-        csv_data = []
-        file1 = request.files.get('file1')
-        file2 = request.files.get('file2')
-        file3 = request.files.get('file3')
-        process_csv([file1, file2, file3])
-        result = calendar()
-        return render_template("cal.html", data=result)
-
-        # return render_template('index.html', output=output)
     return render_template('index.html', output=None)
 
 
@@ -286,37 +274,30 @@ def user_authenticated():
     return username is not None and username in user_database
 
 
-
-def process_csv(files):
+def start_algo(files, pop, gen, croi, mut):
     global mydata
     data = DataLoader(files[0], files[1], files[2])
-    population_size = random.randint(50, 200)          # number of solutions in a population
-    max_generations = random.randint(100, 1000)        # how long to iterate
-    crossover_probability = 1
-    mutation_probability = 0.6
+    population_size = pop#random.randint(50, 200)          # number of solutions in a population
+    max_generations = gen#random.randint(100, 1000)        # how long to iterate
+    crossover_probability = croi#1
+    mutation_probability = mut#0.6
     res = genetic_algo(population_size, max_generations, crossover_probability, mutation_probability, data.courses, data.teachers,
                        data.students)
     mydata = res.days
 
-# @app.route('/get_calendar_data')
-# def get_calendar_data():
-#     events = []
-#     for date, classrooms in mydata.items():
-#         print(date)
-#         for classroomst in classrooms:
-#             # Customize this as per your data structure
-#             event = {
-#                 'title': f'{classroomst.room_name} - Morning: {classroomst.morning}, Noon: {classroomst.noon}',
-#                 'start': date,
-#                 'invig_morning': classroomst.invig_morning,
-#                 'invig_noon': classroomst.invig_noon,
-#             }
-#             events.append(event)
-#     return jsonify(events)
-
 
 @app.route("/cal")
 def calendar_temp():
+    global mydata
+    result = {}
+    for date, classrooms in mydata.items():
+        result[date] = {}
+        for classroom in classrooms:
+            result[date][classroom.room_name] = {"morning" : classroom.morning, "invig_morning": classroom.invig_morning, "noon": classroom.noon, "invig_noon": classroom.invig_noon}
+    return render_template("new_cal.html", data=result)
+
+@app.route("/calendar_full")
+def calendar_full():
     global mydata
     result = {}
     for date, classrooms in mydata.items():
@@ -341,11 +322,11 @@ def download_pdf():
     config =   pdfkit.configuration(wkhtmltopdf='C:\Program Files\wkhtmltopdf\\bin\wkhtmltopdf.exe')
     options = {
         'page-size': 'A4',
-        'orientation': 'portrait',
+        'orientation': 'Landscape',
     }
     try:
         # Generate PDF from the HTML content
-        pdfkit.from_url('http://127.0.0.1:5000/cal', 'webpage.pdf', configuration=config, options=options)
+        pdfkit.from_url('http://127.0.0.1:5000/calendar_full', 'webpage.pdf', configuration=config, options=options)
 
         # Create a response with the PDF file
         response = make_response(open('webpage.pdf', 'rb').read())
@@ -358,13 +339,41 @@ def download_pdf():
 
 
 
-@app.route('/dashbaord')
-def dashbaord():
+@app.route('/dashboard')
+def dashboard():
     return render_template("dash.html")
 
 @app.route('/settings')
 def settings():
     return render_template("settings.html")
+
+
+@app.route('/planning', methods=['GET', 'POST'])
+def planning():
+    # Check if the user is authenticated, if not, redirect to the login page
+    if not user_authenticated():
+        return redirect(url_for('login'))
+    if request.method == 'POST':
+        # Initialize an empty list to store the data from the CSV files
+        csv_data = []
+        file1 = request.files.get('file1')
+        file2 = request.files.get('file2')
+        file3 = request.files.get('file3')
+        pop = int(request.form.get('population'))
+        gen = int(request.form.get('generation'))
+        croi = float(request.form.get("croisement"))
+        mut = float(request.form.get("mutation"))
+
+        start_algo([file1, file2, file3], pop, gen, croi, mut)
+        result = calendar()
+        return render_template("new_cal.html", data=result)
+
+        # return render_template('index.html', output=output)
+    return render_template('planning.html', output=None)
+
+
+
+
 
 
 
